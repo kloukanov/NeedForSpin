@@ -8,5 +8,22 @@ UCLASS()
 class NEEDFORSPIN_API ANFSGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+private:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Components", meta = (AllowPrivateAccess = "true"))
+    TSubclassOf<class UBaseMovementComponent> VehicleMovementComponentClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Components", meta = (AllowPrivateAccess = "true"))
+    TSubclassOf<class UBaseMovementComponent> WalkMovementComponentClass;
+
+protected:
+
+	virtual void BeginPlay() override;
+
+public:
+
+	UFUNCTION()
+	void BuildPlayerCharacter();
 	
 };

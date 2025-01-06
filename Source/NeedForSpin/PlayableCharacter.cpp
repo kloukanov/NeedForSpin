@@ -3,6 +3,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "Components/BaseMovementComponent.h"
 
 APlayableCharacter::APlayableCharacter() {
 	PrimaryActorTick.bCanEverTick = false;
@@ -23,7 +25,12 @@ APlayableCharacter::APlayableCharacter() {
 
 void APlayableCharacter::BeginPlay() {
 	Super::BeginPlay();
-	
+
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController())) {
+        if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) {
+            Subsystem->AddMappingContext(InputMappingContext, 0);
+        }
+    }
 }
 
 void APlayableCharacter::Tick(float DeltaTime) {
@@ -33,5 +40,31 @@ void APlayableCharacter::Tick(float DeltaTime) {
 
 void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
+		// locomotion
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayableCharacter::Move);
+	}
 }
 
+void APlayableCharacter::Move(const struct FInputActionValue& Value) {
+	UE_LOG(LogTemp, Warning, TEXT("Move called from player class"));
+	if(MovementComponent) {
+		MovementComponent->Move();
+	}else {
+		UE_LOG(LogTemp, Warning, TEXT("No Movement Component found"));
+	}
+}
+
+void APlayableCharacter::SetUpPlayerMovementComponent(TSubclassOf<UBaseMovementComponent> MovementComponentClass) {
+	if(MovementComponent) {
+		MovementComponent->DestroyComponent();
+		MovementComponent = nullptr;
+	}
+
+	if(MovementComponent == nullptr) {
+		MovementComponent = NewObject<UBaseMovementComponent>(this, MovementComponentClass);
+		MovementComponent->RegisterComponent();
+		UE_LOG(LogTemp, Warning, TEXT("added new movement component of type: %s"), *MovementComponentClass->GetFName().ToString());
+	}
+}
