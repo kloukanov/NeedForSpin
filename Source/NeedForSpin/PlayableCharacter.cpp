@@ -50,7 +50,7 @@ void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 void APlayableCharacter::Move(const struct FInputActionValue& Value) {
 	UE_LOG(LogTemp, Warning, TEXT("Move called from player class"));
 	if(MovementComponent) {
-		MovementComponent->Move();
+		MovementComponent->Move(Value.Get<FVector2D>());
 	}else {
 		UE_LOG(LogTemp, Warning, TEXT("No Movement Component found"));
 	}

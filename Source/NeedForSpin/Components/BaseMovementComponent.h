@@ -12,7 +12,18 @@ class NEEDFORSPIN_API UBaseMovementComponent : public UActorComponent
 
 protected:
 
-	float MovementSpeed = 50.f;
+	FVector CurrentVelocity;
+
+	FVector2D MovementVector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", meta = (AllowPrivateAccess = "true"))
+    float Acceleration;
+    
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", meta = (AllowPrivateAccess = "true"))
+	float Deceleration;
+    
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", meta = (AllowPrivateAccess = "true"))
+	float MaxSpeed;
 
 	virtual void BeginPlay() override;
 
@@ -20,12 +31,16 @@ public:
 
 	UBaseMovementComponent();
 
-	float GetMovementSpeed() const { return MovementSpeed; }
+	FVector GetCurrentVelocity() const { return CurrentVelocity; }
 
-	void SetMovementSpeed(float NewSpeed) { MovementSpeed = NewSpeed; }
+	float GetAcceleration() const { return Acceleration; }
+
+	float GetDeceleration() const { return Deceleration; }
+
+	float GetMaxSpeed() const { return MaxSpeed; }
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	virtual void Move() {};
+	virtual void Move(const FVector2D& Value) {};
 
 };
