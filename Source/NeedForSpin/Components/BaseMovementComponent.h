@@ -14,7 +14,12 @@ protected:
 
 	FVector CurrentVelocity;
 
+	float CurrentTurnRate;
+
 	FVector2D MovementVector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", meta = (AllowPrivateAccess = "true"))
+	float TurnRate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", meta = (AllowPrivateAccess = "true"))
     float Acceleration;
@@ -41,6 +46,9 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	virtual void Move(const FVector2D& Value) {};
+	virtual void MoveForward(const FVector2D& Value) {};
 
+	virtual void Turn(const FVector2D& Value) {};
+
+	virtual void UpdateVelocity(double& MovementDirection, double& CurrentVelocityDirection, const float DeltaTime);
 };

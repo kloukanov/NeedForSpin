@@ -29,6 +29,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	class UInputAction* TurnAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
@@ -44,6 +47,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	void Move(const struct FInputActionValue& Value);
+
+	void Turn(const struct FInputActionValue& Value);
 
 	void Look(const struct FInputActionValue& Value);
 

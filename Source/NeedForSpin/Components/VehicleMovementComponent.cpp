@@ -13,42 +13,31 @@ void UVehicleMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	// Update forward/backward velocity
 	UpdateVelocity(MovementVector.Y, CurrentVelocity.X, DeltaTime);
-	// Update right/left velocity
-	UpdateVelocity(MovementVector.X, CurrentVelocity.Y, DeltaTime);
 
+	// Update car rotation based on turn rate
+    if (!FMath::IsNearlyZero(CurrentTurnRate))
+    {
+        FRotator NewRotation = GetOwner()->GetActorRotation();
+		// TODO: check if actor is going forward or backward with vector math
+		if(MovementVector.Y >= 0)
+        	NewRotation.Yaw += CurrentTurnRate * DeltaTime;
+		else
+			NewRotation.Yaw -= CurrentTurnRate * DeltaTime; // basically inverting the turn direction when going backwards
+
+        GetOwner()->SetActorRotation(NewRotation);
+    }
+
+	CurrentTurnRate = 0.f;
 	MovementVector.Y = 0;
 	MovementVector.X = 0;
   	GetOwner()->AddActorLocalOffset(CurrentVelocity, true);
 }
 
-void UVehicleMovementComponent::UpdateVelocity(double& MovementDirection, double& CurrentVelocityDirection, const float DeltaTime) {
-	if(MovementDirection == 0.0f && GetOwner()->GetVelocity() == FVector::ZeroVector) {
-		CurrentVelocityDirection = 0;
-		return;
-	}
-
-	// Update forward/backward/right/left velocity
-	if (FMath::Abs(MovementDirection) > KINDA_SMALL_NUMBER) {
-		CurrentVelocityDirection += MovementDirection * Acceleration * DeltaTime;
-		CurrentVelocityDirection = FMath::Clamp(CurrentVelocityDirection, -MaxSpeed, MaxSpeed);
-	}
-	else {
-		// Apply deceleration when moving forward/right
-		if (CurrentVelocityDirection > 0) {
-			CurrentVelocityDirection -= Deceleration * DeltaTime;
-			if (CurrentVelocityDirection < 0)
-				CurrentVelocityDirection = 0;
-		}
-		// Apply deceleration when moving backward/left
-		else if (CurrentVelocityDirection < 0) {
-			CurrentVelocityDirection += Deceleration * DeltaTime;
-			if (CurrentVelocityDirection > 0)
-				CurrentVelocityDirection = 0;
-		}
-	}
-}
-
-void UVehicleMovementComponent::Move(const FVector2D& Value) {
+void UVehicleMovementComponent::MoveForward(const FVector2D& Value) {
 	UE_LOG(LogTemp, Warning, TEXT("We are in the vehicle movement component"));
 	MovementVector = Value;
+}
+
+void UVehicleMovementComponent::Turn(const FVector2D& Value) {
+	CurrentTurnRate = Value.X * TurnRate;
 }

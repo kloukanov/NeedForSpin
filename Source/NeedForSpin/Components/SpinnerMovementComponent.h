@@ -2,11 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "BaseMovementComponent.h"
-#include "VehicleMovementComponent.generated.h"
-
+#include "SpinnerMovementComponent.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable )
-class NEEDFORSPIN_API UVehicleMovementComponent : public UBaseMovementComponent
+class NEEDFORSPIN_API USpinnerMovementComponent : public UBaseMovementComponent
 {
 	GENERATED_BODY()
 
@@ -16,12 +15,11 @@ protected:
 
 public:	
 
-	UVehicleMovementComponent();
+	USpinnerMovementComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	virtual void MoveForward(const FVector2D& Value) override;
 
 	virtual void Turn(const FVector2D& Value) override;
-	
 };

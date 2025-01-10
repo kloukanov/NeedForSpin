@@ -44,6 +44,7 @@ void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		// locomotion
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayableCharacter::Move);
+		EnhancedInputComponent->BindAction(TurnAction, ETriggerEvent::Triggered, this, &APlayableCharacter::Turn);
 		// look
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayableCharacter::Look);
 	}
@@ -60,10 +61,17 @@ void APlayableCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void APlayableCharacter::Move(const struct FInputActionValue& Value) {
-	UE_LOG(LogTemp, Warning, TEXT("Move called from player class"));
+void APlayableCharacter::Turn(const struct FInputActionValue& Value) {
 	if(MovementComponent) {
-		MovementComponent->Move(Value.Get<FVector2D>());
+		MovementComponent->Turn(Value.Get<FVector2D>());
+	}else {
+		UE_LOG(LogTemp, Warning, TEXT("No Movement Component found"));
+	}
+}
+
+void APlayableCharacter::Move(const struct FInputActionValue& Value) {
+	if(MovementComponent) {
+		MovementComponent->MoveForward(Value.Get<FVector2D>());
 	}else {
 		UE_LOG(LogTemp, Warning, TEXT("No Movement Component found"));
 	}
