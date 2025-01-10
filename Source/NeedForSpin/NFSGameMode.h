@@ -17,6 +17,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Components", meta = (AllowPrivateAccess = "true"))
     TSubclassOf<class UBaseMovementComponent> WalkMovementComponentClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Components", meta = (AllowPrivateAccess = "true"))
+    TSubclassOf<class UBaseMovementComponent> SpinnerMovementComponentClass;
+
 protected:
 
 	virtual void BeginPlay() override;
