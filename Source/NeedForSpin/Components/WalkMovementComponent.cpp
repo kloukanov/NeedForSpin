@@ -14,7 +14,7 @@ void UWalkMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 void UWalkMovementComponent::MoveForward(const FVector2D& Value) {
-	UE_LOG(LogTemp, Warning, TEXT("We are in the walk movement component"));
+	// UE_LOG(LogTemp, Warning, TEXT("We are in the walk movement component"));
 }
 
 void UWalkMovementComponent::Turn(const FVector2D& Value) {

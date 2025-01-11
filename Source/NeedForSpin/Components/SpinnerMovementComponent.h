@@ -9,9 +9,16 @@ class NEEDFORSPIN_API USpinnerMovementComponent : public UBaseMovementComponent
 {
 	GENERATED_BODY()
 
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", meta = (AllowPrivateAccess = "true"))
+	float TurnOwnerActorRate;
+
 protected:
 
 	virtual void BeginPlay() override;
+
+	void UpdateRotation();
 
 public:	
 

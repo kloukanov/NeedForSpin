@@ -34,7 +34,7 @@ void UVehicleMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 }
 
 void UVehicleMovementComponent::MoveForward(const FVector2D& Value) {
-	UE_LOG(LogTemp, Warning, TEXT("We are in the vehicle movement component"));
+	// UE_LOG(LogTemp, Warning, TEXT("We are in the vehicle movement component"));
 	MovementVector = Value;
 }
 
