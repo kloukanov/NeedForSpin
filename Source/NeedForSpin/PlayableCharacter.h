@@ -14,8 +14,13 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CapsuleComp;
 
+	// TODO: make this a skeletal mesh
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BaseMesh;
+
+	// TODO: make this a skeletal mesh
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* TorsoMesh;
 
 	UPROPERTY(VisibleAnywhere, Category="Components") 
 	class USpringArmComponent* SpringArm;
@@ -38,6 +43,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UBaseMovementComponent* MovementComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	float TorsoTurnSpeed = 20.f;
+
 public:
 
 	APlayableCharacter();
@@ -51,6 +59,8 @@ protected:
 	void Turn(const struct FInputActionValue& Value);
 
 	void Look(const struct FInputActionValue& Value);
+
+	void RotateTorso();
 
 public:	
 

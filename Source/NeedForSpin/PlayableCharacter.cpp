@@ -15,6 +15,9 @@ APlayableCharacter::APlayableCharacter() {
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	BaseMesh->SetupAttachment(CapsuleComp);
 
+	TorsoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Torso Mesh"));
+	TorsoMesh->SetupAttachment(BaseMesh);
+
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
     SpringArm->SetupAttachment(RootComponent);
 
@@ -38,6 +41,26 @@ void APlayableCharacter::Tick(float DeltaTime) {
 
 }
 
+void APlayableCharacter::RotateTorso() {
+
+	FVector Location;
+	FRotator Rotation;
+	Controller->GetPlayerViewPoint(Location, Rotation);
+
+	FVector LookDirection = Rotation.Vector();
+
+    FVector TorsoLocation = TorsoMesh->GetComponentLocation();
+    FVector TargetLocation = Location + (LookDirection * 10000.0f);
+    FVector DirectionToTarget = (TargetLocation - TorsoLocation).GetSafeNormal();
+
+    FRotator TargetRotation = DirectionToTarget.Rotation();
+
+    FRotator CurrentRotation = TorsoMesh->GetComponentRotation();
+    FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, GetWorld()->GetDeltaSeconds(), TorsoTurnSpeed);
+
+    TorsoMesh->SetWorldRotation(NewRotation);
+}
+
 void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -58,6 +81,7 @@ void APlayableCharacter::Look(const FInputActionValue& Value)
 	{
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+		RotateTorso();
 	}
 }
 
