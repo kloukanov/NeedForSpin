@@ -22,11 +22,11 @@ void ANFSGameMode::BuildPlayerCharacter() {
         if(APlayableCharacter* PlayableCharacter = Cast<APlayableCharacter>(PlayerController->GetPawn())) {
             // TODO: remove this is TEMP ---------
             if(PlayableCharacter->GetPlayerMovementComponent() == nullptr) {
-                PlayableCharacter->SetUpPlayerMovementComponent(SpinnerMovementComponentClass);
-            }else if(PlayableCharacter->GetPlayerMovementComponent()->IsA(SpinnerMovementComponentClass)){
+                PlayableCharacter->SetUpPlayerMovementComponent(HoverMovementComponentClass);
+            }else if(PlayableCharacter->GetPlayerMovementComponent()->IsA(HoverMovementComponentClass)){
                 PlayableCharacter->SetUpPlayerMovementComponent(VehicleMovementComponentClass);
             } else {
-                PlayableCharacter->SetUpPlayerMovementComponent(SpinnerMovementComponentClass);
+                PlayableCharacter->SetUpPlayerMovementComponent(HoverMovementComponentClass);
             }
             // --------------------------------
         }

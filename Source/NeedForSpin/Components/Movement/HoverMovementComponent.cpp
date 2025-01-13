@@ -1,14 +1,14 @@
-#include "SpinnerMovementComponent.h"
+#include "HoverMovementComponent.h"
 
-USpinnerMovementComponent::USpinnerMovementComponent() {
+UHoverMovementComponent::UHoverMovementComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void USpinnerMovementComponent::BeginPlay() {
+void UHoverMovementComponent::BeginPlay() {
 	Super::BeginPlay();
 }
 
-void USpinnerMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
+void UHoverMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// Update forward/backward velocity
@@ -23,7 +23,7 @@ void USpinnerMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTy
   	GetOwner()->AddActorLocalOffset(CurrentVelocity, true);
 }
 
-void USpinnerMovementComponent::UpdateRotation() {
+void UHoverMovementComponent::UpdateRotation() {
 	FVector Location;
 	FRotator Rotation;
 
@@ -44,12 +44,12 @@ void USpinnerMovementComponent::UpdateRotation() {
     GetOwner()->SetActorRotation(NewRotation);
 }
 
-void USpinnerMovementComponent::MoveForward(const FVector2D& Value) {
-	// UE_LOG(LogTemp, Warning, TEXT("We are in the Spinner movement component"));
+void UHoverMovementComponent::MoveForward(const FVector2D& Value) {
+	// UE_LOG(LogTemp, Warning, TEXT("We are in the Hover movement component"));
 	MovementVector = Value;
 }
 
-void USpinnerMovementComponent::Turn(const FVector2D& Value) {
+void UHoverMovementComponent::Turn(const FVector2D& Value) {
 	// only updating the right/left value
 	MovementVector.X = Value.X;
 }
