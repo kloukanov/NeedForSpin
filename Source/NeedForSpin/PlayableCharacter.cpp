@@ -4,7 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Components/BaseMovementComponent.h"
+#include "Components/Movement/BaseMovementComponent.h"
 
 APlayableCharacter::APlayableCharacter() {
 	PrimaryActorTick.bCanEverTick = false;

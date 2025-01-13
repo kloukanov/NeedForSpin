@@ -1,6 +1,6 @@
 #include "NFSGameMode.h"
 #include "PlayableCharacter.h"
-#include "Components/BaseMovementComponent.h"
+#include "Components/Movement/BaseMovementComponent.h"
 
 void ANFSGameMode::BeginPlay() {
 	Super::BeginPlay();
