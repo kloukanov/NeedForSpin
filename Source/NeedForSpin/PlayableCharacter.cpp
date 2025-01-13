@@ -28,12 +28,6 @@ APlayableCharacter::APlayableCharacter() {
 
 void APlayableCharacter::BeginPlay() {
 	Super::BeginPlay();
-
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController())) {
-        if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) {
-            Subsystem->AddMappingContext(InputMappingContext, 0);
-        }
-    }
 }
 
 void APlayableCharacter::Tick(float DeltaTime) {

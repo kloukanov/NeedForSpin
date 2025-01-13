@@ -28,9 +28,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category="Components") 
 	class UCameraComponent* Camera;
 
-	UPROPERTY(EditAnywhere, Category = "Input")
-    class UInputMappingContext* InputMappingContext;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
