@@ -64,7 +64,29 @@ void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(TurnAction, ETriggerEvent::Triggered, this, &APlayableCharacter::Turn);
 		// look
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayableCharacter::Look);
+		// shooting
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &APlayableCharacter::Shoot);
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &APlayableCharacter::StopShoot);
 	}
+}
+
+void APlayableCharacter::Shoot() {
+	UE_LOG(LogTemp, Warning, TEXT("We are shooting"));
+	if(!bIsFiring) {
+		bIsFiring = true;
+		Fire();
+	}
+}
+
+void APlayableCharacter::StopShoot() {
+	UE_LOG(LogTemp, Warning, TEXT("We stopped firing"));
+	if(bIsFiring) {
+		bIsFiring = false;
+	}
+}
+
+void APlayableCharacter::Fire() {
+	UE_LOG(LogTemp, Warning, TEXT("we are firing"));
 }
 
 void APlayableCharacter::Look(const FInputActionValue& Value)

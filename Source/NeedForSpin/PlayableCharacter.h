@@ -37,11 +37,16 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ShootAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UBaseMovementComponent* MovementComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	float TorsoTurnSpeed = 20.f;
+
+	bool bIsFiring = false; 
 
 public:
 
@@ -58,6 +63,12 @@ protected:
 	void Look(const struct FInputActionValue& Value);
 
 	void RotateTorso();
+
+	void Shoot();
+
+	void StopShoot();
+
+	void Fire();
 
 public:	
 
