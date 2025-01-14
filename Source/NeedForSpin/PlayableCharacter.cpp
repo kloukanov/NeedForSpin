@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Components/Movement/BaseMovementComponent.h"
+#include "Weapons/BaseWeapon.h"
 
 APlayableCharacter::APlayableCharacter() {
 	PrimaryActorTick.bCanEverTick = false;
@@ -28,6 +29,10 @@ APlayableCharacter::APlayableCharacter() {
 
 void APlayableCharacter::BeginPlay() {
 	Super::BeginPlay();
+
+	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(WeaponClass);
+	// TODO: attach to component
+	Weapon->SetOwner(this);
 }
 
 void APlayableCharacter::Tick(float DeltaTime) {
@@ -72,7 +77,7 @@ void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void APlayableCharacter::Shoot() {
 	UE_LOG(LogTemp, Warning, TEXT("We are shooting"));
-	if(!bIsFiring) {
+	if(Weapon && !bIsFiring) {
 		bIsFiring = true;
 		Fire();
 	}
@@ -87,6 +92,9 @@ void APlayableCharacter::StopShoot() {
 
 void APlayableCharacter::Fire() {
 	UE_LOG(LogTemp, Warning, TEXT("we are firing"));
+	if(Weapon) {
+		Weapon->PullTrigger();
+	}
 }
 
 void APlayableCharacter::Look(const FInputActionValue& Value)

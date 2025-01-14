@@ -48,6 +48,12 @@ private:
 
 	bool bIsFiring = false; 
 
+	class ABaseWeapon* Weapon;
+
+	// TODO: probably make this an array later and/or move to gamemode class
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class ABaseWeapon> WeaponClass;
+
 public:
 
 	APlayableCharacter();
