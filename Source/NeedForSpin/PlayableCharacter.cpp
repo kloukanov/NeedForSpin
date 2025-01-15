@@ -32,6 +32,8 @@ void APlayableCharacter::BeginPlay() {
 
 	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(WeaponClass);
 	// TODO: attach to component
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	Weapon->AttachToComponent(TorsoMesh, AttachmentRules); // TODO: attachment socket
 	Weapon->SetOwner(this);
 }
 
