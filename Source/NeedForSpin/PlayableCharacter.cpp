@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Components/Movement/BaseMovementComponent.h"
 #include "Weapons/BaseWeapon.h"
+#include "Components/Torso/BaseTorsoComponent.h"
 
 APlayableCharacter::APlayableCharacter() {
 	PrimaryActorTick.bCanEverTick = false;
@@ -16,8 +17,8 @@ APlayableCharacter::APlayableCharacter() {
 	PlayerBaseMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Base Mesh"));
 	PlayerBaseMesh->SetupAttachment(CapsuleComp);
 
-	PlayerTorsoMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Torso Mesh"));
-	PlayerTorsoMesh->SetupAttachment(PlayerBaseMesh);
+	PlayerTorsoMeshComponent = CreateDefaultSubobject<UBaseTorsoComponent>(TEXT("Torso Mesh Component"));
+	PlayerTorsoMeshComponent->SetupAttachment(PlayerBaseMesh);
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
     SpringArm->SetupAttachment(RootComponent);
@@ -33,7 +34,7 @@ void APlayableCharacter::BeginPlay() {
 	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(WeaponClass);
 
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
-	Weapon->AttachToComponent(PlayerTorsoMesh, AttachmentRules, FName("GripPoint"));
+	Weapon->AttachToComponent(PlayerTorsoMeshComponent, AttachmentRules, FName("GripPoint"));
 	Weapon->SetOwner(this);
 }
 
@@ -50,16 +51,16 @@ void APlayableCharacter::RotateTorso() {
 
 	FVector LookDirection = Rotation.Vector();
 
-    FVector TorsoLocation = PlayerTorsoMesh->GetComponentLocation();
+    FVector TorsoLocation = PlayerTorsoMeshComponent->GetComponentLocation();
     FVector TargetLocation = Location + (LookDirection * 10000.0f);
     FVector DirectionToTarget = (TargetLocation - TorsoLocation).GetSafeNormal();
 
     FRotator TargetRotation = DirectionToTarget.Rotation();
 
-    FRotator CurrentRotation = PlayerTorsoMesh->GetComponentRotation();
+    FRotator CurrentRotation = PlayerTorsoMeshComponent->GetComponentRotation();
     FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, GetWorld()->GetDeltaSeconds(), TorsoTurnSpeed);
 
-    PlayerTorsoMesh->SetWorldRotation(NewRotation);
+    PlayerTorsoMeshComponent->SetWorldRotation(NewRotation);
 }
 
 void APlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {

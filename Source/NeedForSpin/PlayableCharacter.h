@@ -18,7 +18,7 @@ private:
 	USkeletalMeshComponent* PlayerBaseMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* PlayerTorsoMesh;
+	class UBaseTorsoComponent* PlayerTorsoMeshComponent;
 
 	UPROPERTY(VisibleAnywhere, Category="Components") 
 	class USpringArmComponent* SpringArm;
