@@ -1,12 +1,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "BaseMovementComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable )
-class NEEDFORSPIN_API UBaseMovementComponent : public UActorComponent
+class NEEDFORSPIN_API UBaseMovementComponent : public USkeletalMeshComponent
 {
 	GENERATED_BODY()
 

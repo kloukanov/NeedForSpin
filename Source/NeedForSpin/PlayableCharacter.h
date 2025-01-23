@@ -15,7 +15,7 @@ private:
 	class UCapsuleComponent* CapsuleComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* PlayerBaseMesh;
+	class UBaseMovementComponent* PlayerBaseMeshComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
 	class UBaseTorsoComponent* PlayerTorsoMeshComponent;
@@ -37,9 +37,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ShootAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	class UBaseMovementComponent* MovementComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	float TorsoTurnSpeed = 20.f;
@@ -82,6 +79,6 @@ public:
 
 	void SetUpPlayerMovementComponent(TSubclassOf<UBaseMovementComponent> _MovementComponent);
 
-	UBaseMovementComponent* GetPlayerMovementComponent() const { return MovementComponent; }	
+	UBaseMovementComponent* GetPlayerMovementComponent() const { return PlayerBaseMeshComponent; }	
 
 };

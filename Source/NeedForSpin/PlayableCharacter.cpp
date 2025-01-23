@@ -14,11 +14,11 @@ APlayableCharacter::APlayableCharacter() {
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
 	RootComponent = CapsuleComp;
 
-	PlayerBaseMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Base Mesh"));
-	PlayerBaseMesh->SetupAttachment(CapsuleComp);
+	PlayerBaseMeshComponent = CreateDefaultSubobject<UBaseMovementComponent>(TEXT("Base Mesh Component"));
+	PlayerBaseMeshComponent->SetupAttachment(CapsuleComp);
 
 	PlayerTorsoMeshComponent = CreateDefaultSubobject<UBaseTorsoComponent>(TEXT("Torso Mesh Component"));
-	PlayerTorsoMeshComponent->SetupAttachment(PlayerBaseMesh);
+	PlayerTorsoMeshComponent->SetupAttachment(PlayerBaseMeshComponent);
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
     SpringArm->SetupAttachment(RootComponent);
@@ -113,30 +113,34 @@ void APlayableCharacter::Look(const FInputActionValue& Value)
 }
 
 void APlayableCharacter::Turn(const struct FInputActionValue& Value) {
-	if(MovementComponent) {
-		MovementComponent->Turn(Value.Get<FVector2D>());
+	if(PlayerBaseMeshComponent) {
+		PlayerBaseMeshComponent->Turn(Value.Get<FVector2D>());
 	}else {
 		UE_LOG(LogTemp, Warning, TEXT("No Movement Component found"));
 	}
 }
 
 void APlayableCharacter::Move(const struct FInputActionValue& Value) {
-	if(MovementComponent) {
-		MovementComponent->MoveForward(Value.Get<FVector2D>());
+	if(PlayerBaseMeshComponent) {
+		PlayerBaseMeshComponent->MoveForward(Value.Get<FVector2D>());
 	}else {
 		UE_LOG(LogTemp, Warning, TEXT("No Movement Component found"));
 	}
 }
 
 void APlayableCharacter::SetUpPlayerMovementComponent(TSubclassOf<UBaseMovementComponent> MovementComponentClass) {
-	if(MovementComponent) {
-		MovementComponent->DestroyComponent();
-		MovementComponent = nullptr;
+	if(PlayerBaseMeshComponent) {
+		PlayerBaseMeshComponent->DestroyComponent();
+		PlayerBaseMeshComponent = nullptr;
 	}
 
-	if(MovementComponent == nullptr) {
-		MovementComponent = NewObject<UBaseMovementComponent>(this, MovementComponentClass);
-		MovementComponent->RegisterComponent();
+	if(PlayerBaseMeshComponent == nullptr) {
+		PlayerBaseMeshComponent = NewObject<UBaseMovementComponent>(this, MovementComponentClass);
+		PlayerBaseMeshComponent->RegisterComponent();
+
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+		PlayerBaseMeshComponent->AttachToComponent(CapsuleComp, AttachmentRules);
+
 		UE_LOG(LogTemp, Warning, TEXT("added new movement component of type: %s"), *MovementComponentClass->GetFName().ToString());
 	}
 }
